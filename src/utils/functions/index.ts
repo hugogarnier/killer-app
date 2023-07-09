@@ -1,0 +1,1 @@
+export { extractParamsFromUrl } from './extractParamsFromUrl';

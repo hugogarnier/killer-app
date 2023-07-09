@@ -16,9 +16,9 @@ export const VerifyModal: FC = () => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const snapPoints = useMemo(() => ['50%'], []);
 
-  useEffect(() => {
-    bottomSheetModalRef.current?.present();
-  }, []);
+  // useEffect(() => {
+  //   bottomSheetModalRef.current?.present();
+  // }, []);
 
   const handleOpenEmailboxAsync = async () => {
     if (Platform.OS === 'ios') {

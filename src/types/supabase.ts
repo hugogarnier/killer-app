@@ -12,7 +12,7 @@ export interface Database {
   games: {
     actions?: ActionGame[];
     admin: string;
-    code: string;
+    code: string | string[];
     created_at: string;
     ended: boolean;
     id: number;

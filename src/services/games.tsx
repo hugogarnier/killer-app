@@ -1,30 +1,11 @@
-import { getAllPlayers } from './players';
 import { defaultGame, defaultPlayer } from '../constants';
 import { supabase } from '../lib';
-import { CreateGame, Game, GameCreated, JoinGame, Player, Profile } from '../types';
+import { Game, GameCreated, Player } from '../types';
 
-const getGames = async (): Promise<Game[]> => {
+export const getGames = async (): Promise<Game[]> => {
   try {
     const result = await supabase.from('games').select('*');
     return result.data as Game[];
-  } catch {
-    return [defaultGame];
-  }
-};
-
-export const getGamesFiltered = async ({ id }: { id: Profile['id'] }): Promise<Game[]> => {
-  try {
-    const allPlayers = await getAllPlayers();
-    const filterPlayer =
-      (allPlayers && allPlayers.filter((player) => player.player_id === id)) || [];
-    const games = await getGames();
-
-    if (games) {
-      return games.filter(
-        (game) => filterPlayer.find((player) => player.code === game.code) || game.admin === id,
-      );
-    }
-    return [];
   } catch {
     return [defaultGame];
   }
@@ -53,59 +34,6 @@ export const getGame = async ({ code }: { code: Game['code'] }): Promise<GameCre
       game: defaultGame,
       players: [defaultPlayer],
     };
-  }
-};
-
-export const createGame = async ({
-  name,
-  admin,
-}: {
-  name: string;
-  admin: string;
-}): Promise<CreateGame> => {
-  try {
-    const randomCode = Math.random().toString(36).substring(2, 7).toUpperCase();
-
-    // create a new game
-    const { status } = await supabase.from('games').insert({
-      name: name,
-      code: randomCode,
-      admin: admin,
-      created_at: new Date(),
-      started: false,
-      ended: false,
-    });
-
-    return { status, code: randomCode };
-  } catch {
-    return { status: 400 };
-  }
-};
-
-export const joinGame = async ({
-  user,
-  code,
-}: {
-  user: Profile;
-  code: JoinGame['code'];
-}): Promise<JoinGame> => {
-  try {
-    // find game from code
-    // insert player
-    const randomNumber = Math.floor(Math.random() * 100);
-
-    const { status } = await supabase.from('players').insert({
-      code: code,
-      created_at: new Date(),
-      alive: true,
-      player_id: user.id,
-      randomNumber,
-      player_name: user.username,
-    });
-
-    return { status };
-  } catch {
-    return { status: 400 };
   }
 };
 

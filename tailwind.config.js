@@ -3,6 +3,7 @@ module.exports = {
   content: [
     './App.{js,jsx,ts,tsx}',
     './app/**/*.{js,jsx,ts,tsx}',
+    './src/app/**/*.{js,jsx,ts,tsx}',
     './src/components/**/*.{js,jsx,ts,tsx}',
     './src/navigation/**/*.{js,jsx,ts,tsx}',
     './src/screens/**/*.{js,jsx,ts,tsx}',
@@ -10,6 +11,11 @@ module.exports = {
   ],
   theme: {
     extend: {
+      font: {
+        title: 'IBMPlexMono_600SemiBold',
+        body: 'IBMPlexMono_400Regular',
+        alt: 'IBMPlexMono_300Light',
+      },
       colors: {
         background: '#F9F9F9',
         backgroundPure: '#E4F0FF',

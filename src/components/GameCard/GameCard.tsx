@@ -1,5 +1,8 @@
 import React, { FC, useState } from 'react';
 
+import { useRouter } from 'expo-router';
+
+import { useGetPlayersFromCode } from '../../services';
 import { Game, Player } from '../../types';
 import { Card } from '../../ui';
 
@@ -8,36 +11,30 @@ type CardGameProps = {
 };
 
 export const GameCard: FC<CardGameProps> = ({ item }) => {
+  const router = useRouter();
   const [players, setPlayers] = useState<Player[]>([]);
 
-  // const unsubscribe = async () => {
-  //   const result = await getPlayersFromCode({ code: item.code });
-  //   if (result) setPlayers(result);
-  // };
+  useGetPlayersFromCode(
+    { code: item.code },
+    {
+      onSuccess: (response: Player[]) => {
+        setPlayers(response);
+      },
+    },
+  );
 
-  // useEffect(() => {
-  //   if (isFocused) {
-  //     unsubscribe();
-  //   }
-  // }, [isFocused]);
-
-  // const gameStatus =
-  //   (item.started && !item.ended && 'started') ||
-  //   (item.started && item.ended && 'ended') ||
-  //   'notStarted';
+  const gameStatus =
+    (item.started && !item.ended && 'started') ||
+    (item.started && item.ended && 'ended') ||
+    'notStarted';
 
   return (
     <Card
       variant={'primary'}
       title={item.name}
       subtitle={`il y a ${players.length} joueurs`}
-      // status={gameStatus}
-      // onPress={() =>
-      //   navigation.navigate(ROUTE.GAME, {
-      //     result: item.code,
-      //     name: item.name || '',
-      //   })
-      // }
+      status={gameStatus}
+      onPress={() => router.push(`/game/${item.code}`)}
     />
   );
 };

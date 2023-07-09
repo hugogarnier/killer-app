@@ -14,5 +14,8 @@ export default () => ({
         projectId: '603e87f9-f4b9-4759-93f9-f76b238fc075',
       },
     },
+    // experiments: {
+    //   typedRoutes: true,
+    // },
   },
 });

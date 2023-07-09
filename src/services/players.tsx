@@ -1,6 +1,6 @@
 import { defaultPlayer } from '../constants';
 import { supabase } from '../lib';
-import { Player } from '../types';
+import { Game, Player } from '../types';
 
 export const getAllPlayers = async (): Promise<Player[]> => {
   try {
@@ -11,7 +11,7 @@ export const getAllPlayers = async (): Promise<Player[]> => {
   }
 };
 
-export const getPlayersFromCode = async ({ code }: { code: string }): Promise<Player[]> => {
+export const getPlayersFromCode = async ({ code }: { code: Game['code'] }): Promise<Player[]> => {
   try {
     const result = await supabase.from('players').select('*').eq('code', code);
     return result.data as Player[];
@@ -20,7 +20,7 @@ export const getPlayersFromCode = async ({ code }: { code: string }): Promise<Pl
   }
 };
 
-export const addPlayer = async ({ code, playerId }: { code: string; playerId: string }) => {
+export const addPlayer = async ({ code, playerId }: { code: Game['code']; playerId: string }) => {
   try {
     const players = await getAllPlayers();
 

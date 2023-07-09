@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
+import { colors } from '../../constants';
 import { Brightness, Chevron, Close, RadioButton, Settings } from '../Icons';
 
 type CardProps = {
@@ -25,13 +26,13 @@ export const Card: FC<CardProps> = ({
       {variant === 'primary' && (
         <View className={'flex flex-row justify-between items-center'}>
           <View className={'bg-backgroundPure p-4 rounded-full'}>
-            {(status === 'notStarted' && <Settings color={'#0168FF'} height={30} width={30} />) ||
-              (status === 'started' && <Brightness color={'#0168FF'} height={30} width={30} />) ||
-              (status === 'ended' && <Close color={'#0168FF'} height={30} width={30} />)}
+            {(status === 'notStarted' && <Settings color={colors.pure} height={30} width={30} />) ||
+              (status === 'started' && <Brightness color={colors.pure} height={30} width={30} />) ||
+              (status === 'ended' && <Close color={colors.pure} height={30} width={30} />)}
           </View>
 
-          <View className={'ml-5'}>
-            <Text className={'text-xl font-bold'}>{title}</Text>
+          <View className={'pl-5'}>
+            <Text className={'text-xl font-title'}>{title}</Text>
             {subtitle && <Text className={'text-gray400'}>{subtitle}</Text>}
           </View>
         </View>
@@ -49,9 +50,9 @@ export const Card: FC<CardProps> = ({
           {(variant === 'secondary' && <Chevron />) || (
             <RadioButton
               color={`${
-                (status === 'notStarted' && '#DB9E43') ||
-                (status === 'started' && '#4CB9A3') ||
-                '#E44646'
+                (status === 'notStarted' && colors.orange) ||
+                (status === 'started' && colors.green) ||
+                colors.red
               }`}
             />
           )}

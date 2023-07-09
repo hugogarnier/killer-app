@@ -2,9 +2,11 @@ import React from 'react';
 
 import { Tabs } from 'expo-router';
 
+import { colors } from '../../../constants';
+
 export const unstable_settings = {
   // Ensure any route can link back to `/`
-  initialRouteName: 'feed/index',
+  initialRouteName: 'feed',
 };
 export default function TabLayout() {
   return (
@@ -12,8 +14,8 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarIcon: () => null,
-        tabBarActiveTintColor: '#0168FF',
-        tabBarInactiveTintColor: '#333333',
+        tabBarActiveTintColor: colors.pure,
+        tabBarInactiveTintColor: colors.gray800,
         tabBarLabelPosition: 'beside-icon',
         tabBarLabelStyle: {
           position: 'absolute',
@@ -21,19 +23,19 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="feed/index"
+        name="feed"
         options={{
           tabBarLabel: 'accueil',
         }}
       />
       <Tabs.Screen
-        name="createjoin/index"
+        name="createjoin"
         options={{
           tabBarLabel: 'créer - rejoindre',
         }}
       />
       <Tabs.Screen
-        name="profile/index"
+        name="profile"
         options={{
           tabBarLabel: 'profil',
         }}
