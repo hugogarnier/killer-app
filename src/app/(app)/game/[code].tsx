@@ -4,6 +4,7 @@ import { Text } from 'react-native';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import LottieView from 'lottie-react-native';
 
+import { NotStartedGame, StartedGame } from '../../../components';
 import { defaultGame } from '../../../constants';
 import { supabase } from '../../../lib';
 import { useGetGame } from '../../../services';
@@ -17,7 +18,7 @@ export default function Game() {
     players: [],
   });
 
-  const { isLoading, refetch } = useGetGame(
+  const { isLoading, isFetching, refetch } = useGetGame(
     { code },
     {
       onSuccess: ({ game, players }) => {
@@ -38,11 +39,21 @@ export default function Game() {
 
   return (
     <>
-      {(isLoading && <LottieView autoPlay source={require('../../../assets/loading.json')} />) || (
+      {((isLoading || isFetching) && (
+        <LottieView autoPlay source={require('../../../assets/loading.json')} />
+      )) || (
         <Layout>
-          <Stack.Screen options={{ headerShown: true, title: info.game.name }} />
-          {(!info.game.started && <Text>Pas démarré</Text>) ||
-            (!info.game.ended && <Text>En cours</Text>) || <Text>Terminé</Text>}
+          <Stack.Screen
+            options={{
+              headerShown: true,
+              headerTransparent: true,
+              headerBackTitleVisible: false,
+              headerBackTitle: '',
+              title: info.game.name,
+            }}
+          />
+          {(!info.game.started && <NotStartedGame {...info} />) ||
+            (!info.game.ended && <StartedGame {...info} />) || <Text>Terminé</Text>}
         </Layout>
       )}
     </>

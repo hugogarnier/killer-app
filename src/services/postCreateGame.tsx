@@ -14,6 +14,8 @@ const postCreateGame = async ({
   try {
     const randomCode = Math.random().toString(36).substring(2, 7).toUpperCase();
 
+    const actions = await supabase.from('actions').select();
+
     // create a new game
     const { status } = await supabase.from('games').insert({
       name: name,
@@ -22,6 +24,7 @@ const postCreateGame = async ({
       created_at: new Date(),
       started: false,
       ended: false,
+      actions: actions.data,
     });
 
     return { status, code: randomCode };

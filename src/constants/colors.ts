@@ -3,6 +3,7 @@ export const colors = {
   backgroundPure: '#E4F0FF',
   gray800: '#333333',
   gray400: '#949AA3',
+  gray200: '#EBEBEB',
   darkBlue: '#003480',
   pure: '#0168FF',
   green: '#4CB9A3',

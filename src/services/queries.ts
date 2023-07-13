@@ -7,4 +7,6 @@ export const QUERIES = {
 export const MUTATIONS = {
   CREATE: 'create',
   JOIN: 'join',
+  START: 'start',
+  KILL: 'kill',
 };

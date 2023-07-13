@@ -4,12 +4,12 @@ import { Pressable, Text, View } from 'react-native';
 import { RadioButton } from '../Icons';
 
 type TextCardProps = {
-  variant: 'primary' | 'secondary';
-  status?: 'alive' | 'dead';
+  variant: 'primary' | 'secondary' | 'tertiary';
+  status?: boolean;
   title: string;
   onPress?: () => void;
 };
-export const TextCard: FC<TextCardProps> = ({ variant, status = 'alive', title, onPress }) => {
+export const TextCard: FC<TextCardProps> = ({ variant, status = true, title, onPress }) => {
   return (
     <Pressable
       onPress={onPress}
@@ -21,11 +21,12 @@ export const TextCard: FC<TextCardProps> = ({ variant, status = 'alive', title, 
 
       {variant === 'primary' && (
         <View>
-          <RadioButton
-            color={`${
-              (status === 'dead' && '#DB9E43') || (status === 'alive' && '#4CB9A3') || '#E44646'
-            }`}
-          />
+          <RadioButton color={`${(!status && '#DB9E43') || (status && '#4CB9A3') || '#E44646'}`} />
+        </View>
+      )}
+      {variant === 'tertiary' && (
+        <View>
+          <RadioButton color={`${(!status && '#DB9E43') || (status && '#4CB9A3') || '#E44646'}`} />
         </View>
       )}
     </Pressable>

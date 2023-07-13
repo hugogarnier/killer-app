@@ -36,8 +36,8 @@ export default function CreateJoin() {
     mutatePostCreateGame(
       { name: values.title, admin: session.user.id },
       {
-        onSuccess: () => {
-          return router.push('/home/game');
+        onSuccess: (response) => {
+          return router.push(`/game/${response.code}`);
         },
         onError: () => {
           setErrors({ title: 'un problème est survenu' });
@@ -53,8 +53,8 @@ export default function CreateJoin() {
     mutatePostJoinGame(
       { user: user, code: values.code },
       {
-        onSuccess: () => {
-          return router.push('/home/game');
+        onSuccess: (response) => {
+          return router.push(`/game/${response.code}`);
         },
         onError: () => {
           setErrors({ code: 'un problème est survenu' });
@@ -76,9 +76,10 @@ export default function CreateJoin() {
         {({ handleChange, handleSubmit, errors, values, touched }) => (
           <View className="justify-between">
             <Input
+              title="titre"
+              placeholder="entre un titre"
               onChangeText={handleChange('title')}
               value={values.title}
-              title="titre"
               error={touched.title && !!errors.title}
               errorMsg={errors.title}
             />
@@ -97,10 +98,11 @@ export default function CreateJoin() {
         {({ handleChange, handleSubmit, errors, values, touched }) => (
           <View className="justify-between">
             <Input
+              title="code"
+              placeholder="enter un code"
               autoCapitalize="characters"
               onChangeText={handleChange('code')}
               value={values.code}
-              title="code"
               error={touched.code && !!errors.code}
               errorMsg={errors.code}
             />

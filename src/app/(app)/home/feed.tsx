@@ -10,9 +10,11 @@ import { Game } from '../../../types';
 import { Layout } from '../../../ui';
 import { WomanComputer } from '../../../ui/Icons';
 
-const Separator = () => <View className={'h-4'} />;
+const Separator = () => <View className={'h-8'} />;
 
 export default function Feed() {
+  // const { logout } = useAuthStore();
+  // logout();
   const session = useAuthStore((state) => state.session);
   const setGames = useGameStore((state) => state.setGames);
   const games = useGameStore((state) => state.games);

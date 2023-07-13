@@ -73,7 +73,7 @@ export const useAuthStore = create<AuthState>()(
         const { error } = await supabase.auth.signOut();
         if (error) return Promise.reject(error);
 
-        set({ session: null });
+        set({ session: null, user: null });
         return Promise.resolve();
       },
     }),
@@ -82,6 +82,7 @@ export const useAuthStore = create<AuthState>()(
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (state) => ({
         session: state.session,
+        user: state.user,
       }),
     },
   ),

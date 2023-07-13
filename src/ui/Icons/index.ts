@@ -10,5 +10,6 @@ export { Profile } from './Profile';
 export { Join } from './Join';
 export { RadioButton } from './RadioButton';
 export { Settings } from './Settings';
+export { Share } from './Share';
 export { WomanComputer } from './WomanComputer';
 export { WomanSit } from './WomanSit';

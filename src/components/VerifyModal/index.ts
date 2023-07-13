@@ -1,1 +1,0 @@
-export { VerifyModal } from './VerifyModal';

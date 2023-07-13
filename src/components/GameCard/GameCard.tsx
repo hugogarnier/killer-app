@@ -1,6 +1,6 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
-import { useRouter } from 'expo-router';
+import { useNavigation, useRouter } from 'expo-router';
 
 import { useGetPlayersFromCode } from '../../services';
 import { Game, Player } from '../../types';
@@ -12,9 +12,10 @@ type CardGameProps = {
 
 export const GameCard: FC<CardGameProps> = ({ item }) => {
   const router = useRouter();
+  const { isFocused } = useNavigation();
   const [players, setPlayers] = useState<Player[]>([]);
 
-  useGetPlayersFromCode(
+  const { refetch } = useGetPlayersFromCode(
     { code: item.code },
     {
       onSuccess: (response: Player[]) => {
@@ -22,6 +23,13 @@ export const GameCard: FC<CardGameProps> = ({ item }) => {
       },
     },
   );
+
+  useEffect(() => {
+    if (isFocused) {
+      refetch();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFocused]);
 
   const gameStatus =
     (item.started && !item.ended && 'started') ||

@@ -1,2 +1,4 @@
 export { GameCard } from './GameCard';
-export { VerifyModal } from './VerifyModal';
+export { PlayerListModal } from './PlayerListModal';
+export { NotStartedGame } from './NotStartedGame';
+export { StartedGame } from './StartedGame';
