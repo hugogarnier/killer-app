@@ -17,8 +17,10 @@ export default function TabLayout() {
         tabBarActiveTintColor: colors.pure,
         tabBarInactiveTintColor: colors.gray800,
         tabBarLabelPosition: 'beside-icon',
+        tabBarHideOnKeyboard: true,
         tabBarLabelStyle: {
           position: 'absolute',
+          fontSize: 18,
         },
       }}
     >

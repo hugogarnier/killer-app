@@ -14,10 +14,19 @@ const joinGame = async ({
   try {
     // find game from code
     // insert player
+    const codeUpperCase = code.toUpperCase();
     const randomNumber = Math.floor(Math.random() * 100);
 
+    const { data } = await supabase
+      .from('players')
+      .select()
+      .eq('code', codeUpperCase)
+      .eq('player_id', user.id);
+
+    if (data.length) throw new Error();
+
     const { status } = await supabase.from('players').insert({
-      code: code,
+      code: codeUpperCase,
       created_at: new Date(),
       alive: true,
       player_id: user.id,

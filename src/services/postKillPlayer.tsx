@@ -4,8 +4,9 @@ import { getGame } from './games';
 import { MUTATIONS, QUERIES } from './queries';
 import { defaultPlayer } from '../constants';
 import { supabase } from '../lib';
+import { Game } from '../types';
 
-export const killPlayer = async ({ code, uid }: { code: string; uid: string }) => {
+export const killPlayer = async ({ code, uid }: { code: Game['code']; uid: string }) => {
   try {
     const { game, players } = await getGame({ code });
     const activePlayer = players.find((player) => player.player_id === uid) || defaultPlayer;

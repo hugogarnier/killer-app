@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 
 import { FlashList } from '@shopify/flash-list';
+import { useFocusEffect } from 'expo-router';
 
 import { GameCard } from '../../../components';
 import { useGetFilteredGames } from '../../../services';
@@ -13,8 +14,6 @@ import { WomanComputer } from '../../../ui/Icons';
 const Separator = () => <View className={'h-8'} />;
 
 export default function Feed() {
-  // const { logout } = useAuthStore();
-  // logout();
   const user = useAuthStore((state) => state.user);
   const setGames = useGameStore((state) => state.setGames);
   const games = useGameStore((state) => state.games);
@@ -25,8 +24,13 @@ export default function Feed() {
       onSuccess: (response: Game[]) => {
         setGames({ games: response });
       },
+      enabled: false,
     },
   );
+
+  useFocusEffect(() => {
+    refetch();
+  });
 
   const renderItem = ({ item }: { item: Game }) => <GameCard item={item} />;
 

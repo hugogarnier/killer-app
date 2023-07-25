@@ -22,7 +22,7 @@ export const useAuthStore = create<AuthState>()(
           set({ isLoading: true });
           const foundUser = await supabase.from('profiles').select().eq('id', user.id);
 
-          if (foundUser.status === 200) {
+          if (foundUser.data.length) {
             return set({ user: { username: user.username, id: user.id, uri: user.uri } });
           }
 

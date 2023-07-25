@@ -27,12 +27,12 @@ export const NotStartedGame: FC<NotStartedGameProps> = ({ game, players }) => {
   const { mutate: mutatePostJoinGame } = usePostJoinGame();
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const snapPoints = useMemo(() => ['85%'], []);
+  const snapPoints = useMemo(() => ['75%'], []);
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
 
-  // const isAdmin = game.admin === user.id;
+  const isAdmin = game.admin === user.id;
   const isAdminPlaying = players.find((player) => player.player_id === user.id);
 
   const renderBackdrop = useCallback(
@@ -113,7 +113,7 @@ export const NotStartedGame: FC<NotStartedGameProps> = ({ game, players }) => {
             )} */}
           </View>
           <View className="items-center">
-            {!game.started && (
+            {!game.started && isAdmin && (
               <Button
                 onPress={handleStartGame}
                 disabled={!game.actions}
@@ -140,12 +140,9 @@ export const NotStartedGame: FC<NotStartedGameProps> = ({ game, players }) => {
             {playerFound &&
               players.map((player) => {
                 return (
-                  <TextCard
-                    key={player.id}
-                    variant="primary"
-                    title={player.player_name}
-                    status={player.alive}
-                  />
+                  <View key={player.id} className="flex flex-row px-4 mb-4">
+                    <TextCard variant="primary" title={player.player_name} status={player.alive} />
+                  </View>
                 );
               })}
           </View>

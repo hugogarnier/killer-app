@@ -1,9 +1,8 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 
-import { useNavigation, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 
-import { useGetPlayersFromCode } from '../../services';
-import { Game, Player } from '../../types';
+import { Game } from '../../types';
 import { Card } from '../../ui';
 
 type CardGameProps = {
@@ -12,24 +11,6 @@ type CardGameProps = {
 
 export const GameCard: FC<CardGameProps> = ({ item }) => {
   const router = useRouter();
-  const { isFocused } = useNavigation();
-  const [players, setPlayers] = useState<Player[]>([]);
-
-  const { refetch } = useGetPlayersFromCode(
-    { code: item.code },
-    {
-      onSuccess: (response: Player[]) => {
-        setPlayers(response);
-      },
-    },
-  );
-
-  useEffect(() => {
-    if (isFocused) {
-      refetch();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isFocused]);
 
   const gameStatus =
     (item.started && !item.ended && 'started') ||
@@ -40,7 +21,7 @@ export const GameCard: FC<CardGameProps> = ({ item }) => {
     <Card
       variant={'primary'}
       title={item.name}
-      subtitle={`il y a ${players.length} joueurs`}
+      subtitle={`code de la partie ${item.code}`}
       status={gameStatus}
       onPress={() => router.push(`/game/${item.code}`)}
     />
