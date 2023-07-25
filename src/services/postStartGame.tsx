@@ -3,14 +3,15 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { getGame } from './games';
 import { MUTATIONS, QUERIES } from './queries';
 import { supabase } from '../lib';
+import { Game } from '../types';
 
-const startGame = async ({ code }: { code: string }) => {
+const startGame = async ({ code }: { code: Game['code'] }) => {
   try {
     await supabase.from('games').update({ started: true }).eq('code', code);
     const { game, players } = await getGame({ code });
 
     if (game && !!players.length && !!game.actions) {
-      players.sort((a, b) => {
+      const sortedPlayers = players.sort((a, b) => {
         if (a.randomNumber < b.randomNumber) return -1;
         if (a.randomNumber > b.randomNumber) return 1;
         return 0;
@@ -19,14 +20,14 @@ const startGame = async ({ code }: { code: string }) => {
       let userIndex = 0;
       const tabRandomNumber: number[] = [];
 
-      players.map((player) => {
+      sortedPlayers.map((player) => {
         let randomNumber = game.actions && Math.floor(Math.random() * game.actions.length);
         if (randomNumber && tabRandomNumber.includes(randomNumber)) {
           randomNumber = game.actions && Math.floor(Math.random() * game.actions.length);
         }
-        randomNumber && tabRandomNumber.push(randomNumber);
+        tabRandomNumber.push(randomNumber);
 
-        if (players.length - 1 === userIndex) {
+        if (sortedPlayers.length - 1 === userIndex) {
           player.player_to_kill = players[0].player_id;
           player.action = randomNumber && game.actions && game.actions[randomNumber].action;
         } else {
@@ -36,7 +37,7 @@ const startGame = async ({ code }: { code: string }) => {
         }
       });
 
-      const { status } = await supabase.from('players').upsert(players).eq('code', code);
+      const { status } = await supabase.from('players').upsert(sortedPlayers).eq('code', code);
 
       return status;
     }

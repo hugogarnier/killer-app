@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 
 import { FlashList } from '@shopify/flash-list';
+import { useFocusEffect } from 'expo-router';
 
 import { GameCard } from '../../../components';
 import { useGetFilteredGames } from '../../../services';
@@ -21,13 +22,15 @@ export default function Feed() {
     { id: user.id },
     {
       onSuccess: (response: Game[]) => {
-        const sortedGames = response.sort(
-          (a, b) => (b.started as any) - (a.started as any) || (a.ended as any) - (b.ended as any),
-        );
-        setGames({ games: sortedGames });
+        setGames({ games: response });
       },
+      enabled: false,
     },
   );
+
+  useFocusEffect(() => {
+    refetch();
+  });
 
   const renderItem = ({ item }: { item: Game }) => <GameCard item={item} />;
 
@@ -36,9 +39,7 @@ export default function Feed() {
       <View className={'w-full h-full'}>
         {(!games.length && (
           <View className={'flex-1 flex-col justify-around items-center'}>
-            <Text className={'text-center text-xl'}>
-              Tu n&apos;as pas encore créé ou rejoins de partie
-            </Text>
+            <Text className={'text-center'}>Tu n&apos;as pas encore créé ou rejoins de partie</Text>
             <WomanComputer height={200} width={200} />
           </View>
         )) || (
@@ -49,7 +50,6 @@ export default function Feed() {
             renderItem={renderItem}
             estimatedItemSize={200}
             ItemSeparatorComponent={Separator}
-            ListFooterComponent={Separator}
           />
         )}
       </View>

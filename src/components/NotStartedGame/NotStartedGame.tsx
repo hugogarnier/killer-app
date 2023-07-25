@@ -27,7 +27,7 @@ export const NotStartedGame: FC<NotStartedGameProps> = ({ game, players }) => {
   const { mutate: mutatePostJoinGame } = usePostJoinGame();
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const snapPoints = useMemo(() => ['85%'], []);
+  const snapPoints = useMemo(() => ['75%'], []);
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);

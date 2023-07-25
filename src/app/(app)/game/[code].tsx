@@ -19,20 +19,18 @@ export default function Game() {
   });
 
   const { isLoading, isFetching, refetch } = useGetGame(
-    { code },
+    { code: code as string },
     {
       onSuccess: ({ game, players }) => {
         setInfo({ game, players });
       },
+      enabled: false,
     },
   );
 
   supabase
     .channel('public:games')
-    .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'games' }, async () => {
-      refetch();
-    })
-    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'players' }, async () => {
+    .on('postgres_changes', { event: '*', schema: 'public' }, async () => {
       refetch();
     })
     .subscribe();

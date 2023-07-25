@@ -12,6 +12,12 @@ const postCreateGame = async ({
   admin: string;
 }): Promise<CreateGame> => {
   try {
+    const gameExists = await supabase.from('games').select().ilike('name', `%${name}%`);
+
+    if (gameExists.data.length) {
+      throw new Error();
+    }
+
     const randomCode = Math.random().toString(36).substring(2, 7).toUpperCase();
 
     const actions = await supabase.from('actions').select();

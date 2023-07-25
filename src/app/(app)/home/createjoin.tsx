@@ -27,7 +27,7 @@ export default function CreateJoin() {
   const CodeSchema = Yup.object().shape({
     code: Yup.string()
       .required('le code doit faire 5 caractères')
-      .matches(/^[0-9A-Z]{5}$/g, 'le code doit être composé de 5 lettres majuscules'),
+      .matches(/^[0-9A-Z]{5}$/g, 'le code doit être composé de 5 caractères'),
   });
 
   const submitCreateForm = async (
@@ -38,6 +38,7 @@ export default function CreateJoin() {
       { name: values.title, admin: user.id },
       {
         onSuccess: (response) => {
+          if (response.status === 400) return setErrors({ title: 'le nom existe déjà' });
           return router.push(`/game/${response.code}`);
         },
         onError: () => {
@@ -71,21 +72,22 @@ export default function CreateJoin() {
         <WomanSit />
       </View>
       <Formik
-        initialValues={{ title: '', code: '' }}
-        onSubmit={(values, { setErrors }) => {
+        initialValues={{ title: '' }}
+        onSubmit={(values, { setErrors, resetForm }) => {
           const newValues = { ...values, title: values.title.toLowerCase() };
           submitCreateForm(newValues, (error) => setErrors(error));
+          resetForm({ values: { title: '' } });
         }}
         validationSchema={TitleSchema}
       >
-        {({ handleChange, handleSubmit, errors, values, touched }) => (
+        {({ handleChange, handleSubmit, errors, values }) => (
           <View className="justify-between">
             <Input
               title="titre"
               placeholder="entre un titre"
               onChangeText={handleChange('title')}
               value={values.title}
-              error={touched.title && !!errors.title}
+              error={!!errors.title}
               errorMsg={errors.title}
             />
             <Button onPress={handleSubmit} text="créer" />
@@ -93,22 +95,23 @@ export default function CreateJoin() {
         )}
       </Formik>
       <Formik
-        initialValues={{ title: '', code: '' }}
-        onSubmit={(values, { setErrors }) => {
-          const newValues = { ...values, code: values.code.toUpperCase() };
+        initialValues={{ code: '' }}
+        onSubmit={(values, { setErrors, resetForm }) => {
+          const newValues = { ...values, code: values.code.toLowerCase() };
           submitJoinForm(newValues, (error) => setErrors(error));
+          resetForm({ values: { code: '' } });
         }}
         validationSchema={CodeSchema}
       >
-        {({ handleChange, handleSubmit, errors, values, touched }) => (
+        {({ handleChange, handleSubmit, errors, values }) => (
           <View className="justify-between">
             <Input
               title="code"
               placeholder="enter un code"
-              autoCapitalize="words"
+              autoCapitalize="characters"
               onChangeText={handleChange('code')}
               value={values.code}
-              error={touched.code && !!errors.code}
+              error={!!errors.code}
               errorMsg={errors.code}
             />
             <Button variant="secondary" onPress={handleSubmit} text="rejoindre" />

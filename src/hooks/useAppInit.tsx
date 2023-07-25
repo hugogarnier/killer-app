@@ -16,7 +16,6 @@ export const useAppInit = () => {
   const [appIsReady, setAppIsReady] = useState(false);
   const router = useRouter();
   const { user } = useAuthStore();
-  // const { user } = useAuth0();
 
   async function loadData() {
     await Font.loadAsync({
