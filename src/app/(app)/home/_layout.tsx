@@ -80,6 +80,7 @@ export default function DrawerLayout() {
               headerShown: item.headerShown,
               headerTitle: item.headerTitle,
               headerTitleStyle: { fontFamily: 'IBMPlexMono_400Regular' },
+              headerTitleAlign: 'center',
               drawerIcon: ({ color, size }) => (
                 <CustomIcon name={item.icon} color={color} size={size} />
               ),

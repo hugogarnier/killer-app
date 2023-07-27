@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, { FC } from 'react';
 import { TextInput, View } from 'react-native';
 
@@ -28,7 +29,7 @@ export const Input: FC<InputProps> = ({
 }) => {
   return (
     <View className={'w-full my-2'}>
-      <Text className={'text-pure mb-2'}>{title}</Text>
+      <Text className={'text-lg text-pure mb-2'}>{title}</Text>
       <TextInput
         autoCapitalize={autoCapitalize}
         placeholder={placeholder}
@@ -36,6 +37,7 @@ export const Input: FC<InputProps> = ({
         value={value}
         onChangeText={onChangeText}
         secureTextEntry={type === 'password'}
+        style={{ fontFamily: 'IBMPlexMono_400Regular', fontSize: 16 }}
         {...props}
       />
       {error && <Text className={'text-red mt-1'}>{errorMsg}</Text>}

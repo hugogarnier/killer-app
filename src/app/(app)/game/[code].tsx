@@ -56,6 +56,7 @@ export default function Game() {
               headerBackTitleStyle: { fontFamily: 'IBMPlexMono_400Regular' },
               headerBackTitle: '',
               headerTitleStyle: { fontFamily: 'IBMPlexMono_400Regular' },
+              headerTitleAlign: 'center',
               title: info.game.name,
             }}
           />
