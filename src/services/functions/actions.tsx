@@ -1,5 +1,5 @@
-import { supabase } from '../lib';
-import { Action } from '../types';
+import { supabase } from '../../lib';
+import { Action } from '../../types';
 
 export const getActions = async (): Promise<Action[]> => {
   try {

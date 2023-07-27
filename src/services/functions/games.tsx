@@ -1,6 +1,7 @@
-import { defaultGame, defaultPlayer } from '../constants';
-import { supabase } from '../lib';
-import { Game, GameCreated, Player } from '../types';
+import { getAllPlayers } from './players';
+import { defaultGame, defaultPlayer } from '../../constants';
+import { supabase } from '../../lib';
+import { Game, GameCreated, Player, Profile } from '../../types';
 
 export const getGames = async (): Promise<Game[]> => {
   try {
@@ -11,7 +12,8 @@ export const getGames = async (): Promise<Game[]> => {
   }
 };
 
-export const getGame = async ({ code }: { code: Game['code'] }): Promise<GameCreated> => {
+type Code = (arg: { code: Game['code'] }) => Promise<GameCreated>;
+export const getGame: Code = async ({ code }) => {
   try {
     const resultGame = await supabase.from('games').select('*').eq('code', code);
 
@@ -34,6 +36,27 @@ export const getGame = async ({ code }: { code: Game['code'] }): Promise<GameCre
       game: defaultGame,
       players: [defaultPlayer],
     };
+  }
+};
+
+type UserId = (arg: { id: Profile['id'] }) => Promise<Game[]>;
+export const getFilteredGames: UserId = async ({ id }) => {
+  try {
+    const allPlayers = await getAllPlayers();
+
+    const filterPlayer =
+      (allPlayers && allPlayers.filter((player) => player.player_id === id)) || [];
+
+    const games = await getGames();
+
+    if (games) {
+      return games.filter(
+        (game) => filterPlayer.find((player) => player.code === game.code) || game.admin === id,
+      );
+    }
+    return [defaultGame];
+  } catch {
+    return [defaultGame];
   }
 };
 

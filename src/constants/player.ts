@@ -11,4 +11,6 @@ export const defaultPlayer: Player = {
   player_name: '',
   player_to_kill: '',
   randomNumber: 0,
+  confirmKill: false,
+  waitingConfirmationKill: false,
 };

@@ -24,7 +24,7 @@ export const Button: FC<ButtonProps> = ({
       className={`flex flex-row justify-center items-center rounded-xl ${
         (variant === 'primary' && 'bg-pure active:bg-darkBlue') ||
         'bg-backgroundPure border-[0.7px] border-transparent active:border-[0.7px] active:border-pure'
-      }  p-5 my-2 w-full`}
+      }  p-5 my-2 w-full ${disabled && 'bg-gray400'}`}
       {...props}
     >
       <Text

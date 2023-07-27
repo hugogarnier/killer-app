@@ -23,7 +23,7 @@ export default () => ({
       bundleIdentifier: 'com.hdev.killer',
     },
     plugins: [
-      'react-native-email-link',
+      'expo-router',
       [
         'react-native-auth0',
         {
@@ -48,8 +48,8 @@ export default () => ({
     runtimeVersion: {
       policy: 'sdkVersion',
     },
-    // experiments: {
-    //   typedRoutes: true,
-    // },
+    experiments: {
+      typedRoutes: true,
+    },
   },
 });

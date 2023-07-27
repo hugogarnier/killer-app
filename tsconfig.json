@@ -3,7 +3,8 @@
   "compilerOptions": {
     "jsx": "react",
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "strict": true
   },
   "typeRoots": [
     "./node_modules/@types/",

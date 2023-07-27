@@ -7,3 +7,9 @@ export const defaultProfile: Profile = {
   full_name: '',
   updated_at: '',
 };
+
+export const defaultUser = {
+  username: '',
+  id: '',
+  uri: '',
+};
