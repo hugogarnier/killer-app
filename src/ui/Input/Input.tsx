@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
-import { Text, TextInput, View } from 'react-native';
+import { TextInput, View } from 'react-native';
+
+import { Text } from '../Text';
 
 type InputProps = {
   variant?: 'primary' | 'secondary';

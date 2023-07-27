@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { Image, Text, View } from 'react-native';
+import { View } from 'react-native';
 
-import { useFocusEffect, useRouter } from 'expo-router';
+import { Stack, useFocusEffect, useRouter } from 'expo-router';
 import { useAuth0 } from 'react-native-auth0';
 
+import { Avatar } from '../../../components';
 import { useGetGamesFromPlayer } from '../../../services';
 import { useAuthStore } from '../../../stores';
 import { Player } from '../../../types';
-import { Button, Layout } from '../../../ui';
+import { Button, Layout, Text } from '../../../ui';
 
 export default function Index() {
   const { user } = useAuthStore();
@@ -41,12 +42,19 @@ export default function Index() {
 
   return (
     <Layout>
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          headerTransparent: true,
+          headerBackTitleVisible: false,
+          headerBackTitle: '',
+          title: '',
+        }}
+      />
       <View className="flex-1 justify-between">
-        <View className="items-center space-y-4">
-          <Text className="text-2xl">{user.username}</Text>
-          <View className="h-28 w-28 rounded-full overflow-hidden border-[1px]">
-            <Image source={{ uri: user.uri }} className="h-full w-full" resizeMode="cover" />
-          </View>
+        <View className="items-center">
+          <Text className="text-2xl pb-4">{user.username}</Text>
+          <Avatar uri={user.uri} />
         </View>
 
         <View className="justify-center items-center">

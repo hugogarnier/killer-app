@@ -8,7 +8,7 @@ type LayoutProps = {
 
 export const Layout: FC<LayoutProps> = ({ children, style }) => {
   return (
-    <View className={'flex-1 bg-background px-6 pt-16 pb-5'} style={style}>
+    <View className={'flex-1 bg-background px-6 pt-24 pb-8'} style={style}>
       {children}
     </View>
   );

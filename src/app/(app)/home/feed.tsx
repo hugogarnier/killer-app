@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import { FlashList } from '@shopify/flash-list';
 import { useFocusEffect } from 'expo-router';
@@ -8,7 +8,7 @@ import { GameCard } from '../../../components';
 import { useGetFilteredGames } from '../../../services';
 import { useAuthStore, useGameStore } from '../../../stores';
 import { Game } from '../../../types';
-import { Layout } from '../../../ui';
+import { Layout, Text } from '../../../ui';
 import { WomanComputer } from '../../../ui/Icons';
 
 const Separator = () => <View className={'h-8'} />;

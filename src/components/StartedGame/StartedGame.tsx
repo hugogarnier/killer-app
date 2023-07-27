@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import { defaultPlayer } from '../../constants';
 import { usePostKillPlayer } from '../../services';
 import { useAuthStore } from '../../stores';
 import { Game, Player } from '../../types';
-import { Button, Layout, TextCard } from '../../ui';
+import { Button, Layout, Text, TextCard } from '../../ui';
 
 type StartedGameProps = {
   game: Game;

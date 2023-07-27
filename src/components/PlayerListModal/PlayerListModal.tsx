@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useMemo, useRef } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import {
   BottomSheetBackdrop,
@@ -8,7 +8,7 @@ import {
 } from '@gorhom/bottom-sheet';
 import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types';
 
-import { Button } from '../../ui';
+import { Button, Text } from '../../ui';
 
 export const PlayerListModal: FC = () => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);

@@ -53,7 +53,9 @@ export default function Game() {
               headerShown: true,
               headerTransparent: true,
               headerBackTitleVisible: false,
+              headerBackTitleStyle: { fontFamily: 'IBMPlexMono_400Regular' },
               headerBackTitle: '',
+              headerTitleStyle: { fontFamily: 'IBMPlexMono_400Regular' },
               title: info.game.name,
             }}
           />

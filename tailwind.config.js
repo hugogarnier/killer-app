@@ -11,10 +11,10 @@ module.exports = {
   ],
   theme: {
     extend: {
-      font: {
-        title: 'IBMPlexMono_600SemiBold',
-        body: 'IBMPlexMono_400Regular',
-        alt: 'IBMPlexMono_300Light',
+      fontFamily: {
+        ibmBold: ['IBMPlexMono_700Bold'],
+        ibmReg: ['IBMPlexMono_400Regular'],
+        ibmLight: ['IBMPlexMono_300Light'],
       },
       colors: {
         background: '#F9F9F9',
