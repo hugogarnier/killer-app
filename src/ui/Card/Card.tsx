@@ -1,8 +1,9 @@
 import React, { FC } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { colors } from '../../constants';
 import { Brightness, Chevron, Close, RadioButton, Settings } from '../Icons';
+import { Text } from '../Text';
 
 type CardProps = {
   variant: 'primary' | 'secondary' | 'tertiary';

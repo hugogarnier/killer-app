@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import { Player } from '../../types';
-import { Layout, TextCard } from '../../ui';
+import { Layout, Text, TextCard } from '../../ui';
 
 type EndedGameProps = {
   players: Player[];

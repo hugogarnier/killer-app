@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useMemo, useRef } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import {
   BottomSheetBackdrop,
@@ -12,7 +12,7 @@ import { colors } from '../../constants';
 import { usePostJoinGame, usePostStartGame } from '../../services';
 import { useAuthStore } from '../../stores';
 import { Game, Player } from '../../types';
-import { Button, Card, Layout, TextCard } from '../../ui';
+import { Button, Card, Text, TextCard } from '../../ui';
 import { Share } from '../../ui/Icons';
 import { shareCode } from '../../utils';
 
@@ -82,50 +82,48 @@ export const NotStartedGame: FC<NotStartedGameProps> = ({ game, players }) => {
 
   return (
     <>
-      <Layout>
-        <View className="flex-1 justify-between pb-16">
-          <View className="flex-row justify-center items-center space-x-4">
-            <Text className="text-xl font-bold">{game.code}</Text>
-            <Pressable
-              className="bg-gray200 p-2 rounded-full active:bg-gray400"
-              onPress={() => shareCode(game.code)}
-            >
-              <Share color={colors.gray800} />
-            </Pressable>
+      <View className="flex-1 justify-between pt-32 pb-16">
+        <View className="flex-row justify-center items-center space-x-4">
+          <Text className="text-xl font-bold">{game.code}</Text>
+          <Pressable
+            className="bg-gray200 p-2 rounded-full active:bg-gray400"
+            onPress={() => shareCode(game.code)}
+          >
+            <Share color={colors.gray800} />
+          </Pressable>
+        </View>
+
+        <View>
+          <View className="mb-4">
+            <Card
+              variant="secondary"
+              title="liste des joueurs"
+              subtitle={`${(playerFound && players.length) || 0} joueur(s)`}
+              onPress={handlePresentModalPress}
+            />
           </View>
 
-          <View>
-            <View className="mb-4">
-              <Card
-                variant="secondary"
-                title="liste des joueurs"
-                subtitle={`${(playerFound && players.length) || 0} joueur(s)`}
-                onPress={handlePresentModalPress}
-              />
-            </View>
-
-            {/* {isAdmin && (
+          {/* {isAdmin && (
               <Card
                 variant="secondary"
                 title="liste des actions"
                 subtitle={`${players.length}/${players.length}`}
               />
             )} */}
-          </View>
-          <View className="items-center">
-            {!game.started && isAdmin && (
-              <Button
-                onPress={handleStartGame}
-                disabled={!game.actions}
-                text={'démarrer la partie'}
-              />
-            )}
-            {!isAdminPlaying && (
-              <Button onPress={handleJoinGame} variant={'secondary'} text={'rejoindre la partie'} />
-            )}
-          </View>
         </View>
-      </Layout>
+        <View className="items-center">
+          {!game.started && isAdmin && (
+            <Button
+              onPress={handleStartGame}
+              disabled={!game.actions}
+              text={'démarrer la partie'}
+            />
+          )}
+          {!isAdminPlaying && (
+            <Button onPress={handleJoinGame} variant={'secondary'} text={'rejoindre la partie'} />
+          )}
+        </View>
+      </View>
       <BottomSheetModalProvider>
         <BottomSheetModal
           ref={bottomSheetModalRef}

@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
-import { Pressable, Text } from 'react-native';
+import { Pressable } from 'react-native';
+
+import { Text } from '../Text';
 
 type ButtonProps = {
   variant?: 'primary' | 'secondary';

@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { RadioButton } from '../Icons';
+import { Text } from '../Text/Text';
 
 type TextCardProps = {
   variant: 'primary' | 'secondary' | 'tertiary';
