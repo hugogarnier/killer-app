@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from 'react';
-import { View, ViewStyle } from 'react-native';
+import { Platform, View, ViewStyle } from 'react-native';
 
 type LayoutProps = {
   children: ReactNode | ReactNode[];
@@ -7,8 +7,13 @@ type LayoutProps = {
 };
 
 export const Layout: FC<LayoutProps> = ({ children, style }) => {
+  const isAndroid = Platform.OS === 'android';
+
   return (
-    <View className={'flex-1 bg-background px-6 pt-24 pb-8'} style={style}>
+    <View
+      className={`flex-1 bg-background px-6 pb-8 ${(isAndroid && 'pt-32') || 'pt-24'}`}
+      style={style}
+    >
       {children}
     </View>
   );

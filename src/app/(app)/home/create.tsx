@@ -19,8 +19,8 @@ export default function Create() {
 
   const TitleSchema = Yup.object().shape({
     title: Yup.string()
-      .required('le titre doit être entre 4 et 15 caractères')
-      .matches(/^[a-zA-Z0-9]{4,15}$/g, 'le titre doit être entre 4 et 15 caractères'),
+      .required('le titre doit être entre 4 et 16 caractères')
+      .matches(/^[a-zA-Z0-9_ ]{4,16}$/g, 'le titre doit être entre 4 et 16 caractères'),
   });
 
   const submitCreateForm = async (
