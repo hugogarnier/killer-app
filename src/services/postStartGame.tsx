@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { getGame } from './games';
+import { getGame } from './functions/games';
 import { MUTATIONS, QUERIES } from './queries';
 import { supabase } from '../lib';
 import { Game } from '../types';
@@ -20,7 +20,7 @@ const startGame = async ({ code }: { code: Game['code'] }) => {
       let userIndex = 0;
       const tabRandomNumber: number[] = [];
 
-      sortedPlayers.map((player) => {
+      const parsedPlayers = sortedPlayers.map((player) => {
         let randomNumber = game.actions && Math.floor(Math.random() * game.actions.length);
         if (randomNumber && tabRandomNumber.includes(randomNumber)) {
           randomNumber = game.actions && Math.floor(Math.random() * game.actions.length);
@@ -30,14 +30,16 @@ const startGame = async ({ code }: { code: Game['code'] }) => {
         if (sortedPlayers.length - 1 === userIndex) {
           player.player_to_kill = players[0].player_id;
           player.action = randomNumber && game.actions && game.actions[randomNumber].action;
+          return player;
         } else {
           player.player_to_kill = players[userIndex + 1].player_id;
-          player.action = randomNumber && game.actions && game.actions[randomNumber].action;
+          player.action = game.actions[randomNumber].action;
           userIndex++;
+          return player;
         }
       });
 
-      const { status } = await supabase.from('players').upsert(sortedPlayers).eq('code', code);
+      const { status } = await supabase.from('players').upsert(parsedPlayers).eq('code', code);
 
       return status;
     }

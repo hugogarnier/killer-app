@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { getGames } from './games';
-import { getAllPlayers } from './players';
+import { getGames } from './functions/games';
+import { getAllPlayers } from './functions/players';
 import { QUERIES } from './queries';
 import { defaultGame } from '../constants';
 import { Game, Profile } from '../types';

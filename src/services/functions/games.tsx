@@ -1,6 +1,6 @@
-import { defaultGame, defaultPlayer } from '../constants';
-import { supabase } from '../lib';
-import { Game, GameCreated, Player } from '../types';
+import { defaultGame, defaultPlayer } from '../../constants';
+import { supabase } from '../../lib';
+import { Game, GameCreated, Player } from '../../types';
 
 export const getGames = async (): Promise<Game[]> => {
   try {

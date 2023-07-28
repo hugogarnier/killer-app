@@ -24,6 +24,7 @@ export default () => ({
     },
     plugins: [
       'react-native-email-link',
+      'expo-router',
       [
         'react-native-auth0',
         {
