@@ -5,6 +5,7 @@ import {
   BottomSheetBackdrop,
   BottomSheetModal,
   BottomSheetModalProvider,
+  useBottomSheetSpringConfigs,
 } from '@gorhom/bottom-sheet';
 import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types';
 
@@ -80,6 +81,14 @@ export const NotStartedGame: FC<NotStartedGameProps> = ({ game, players }) => {
 
   const playerFound = players.find((player) => !!player.code);
 
+  const animationConfigs = useBottomSheetSpringConfigs({
+    damping: 80,
+    overshootClamping: true,
+    restDisplacementThreshold: 0.1,
+    restSpeedThreshold: 0.1,
+    stiffness: 500,
+  });
+
   return (
     <>
       <View className="flex-1 justify-between pt-32 pb-16">
@@ -132,8 +141,9 @@ export const NotStartedGame: FC<NotStartedGameProps> = ({ game, players }) => {
           enablePanDownToClose
           backdropComponent={renderBackdrop}
           backgroundStyle={{ backgroundColor: colors.gray200 }}
+          animationConfigs={animationConfigs}
         >
-          <View className={'flex-1 items-center px-6 pt-16'}>
+          <View className={'flex-1 items-center px-6 pt-10'}>
             <Text className="text-xl font-bold pb-4">liste des joueurs</Text>
             {playerFound &&
               players.map((player) => {

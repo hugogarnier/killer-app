@@ -3,6 +3,7 @@ import { View } from 'react-native';
 
 import { Stack, useFocusEffect, useRouter } from 'expo-router';
 import { useAuth0 } from 'react-native-auth0';
+import Animated from 'react-native-reanimated';
 
 import { Avatar } from '../../../components';
 import { useGetGamesFromPlayer } from '../../../services';
@@ -54,7 +55,9 @@ export default function Index() {
       <View className="flex-1 justify-between">
         <View className="items-center">
           <Text className="text-2xl pb-4">{user.username}</Text>
-          <Avatar uri={user.uri} />
+          <Animated.View sharedTransitionTag="sharedTag">
+            <Avatar uri={user.uri} />
+          </Animated.View>
         </View>
 
         <View className="justify-center items-center">
