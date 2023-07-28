@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { getGame } from './games';
+import { getGame } from './functions/games';
 import { MUTATIONS, QUERIES } from './queries';
 import { defaultPlayer } from '../constants';
 import { supabase } from '../lib';

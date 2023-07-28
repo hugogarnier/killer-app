@@ -24,7 +24,6 @@ export default function Game() {
       onSuccess: ({ game, players }) => {
         setInfo({ game, players });
       },
-      enabled: false,
     },
   );
 
