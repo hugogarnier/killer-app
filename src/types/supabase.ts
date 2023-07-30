@@ -30,6 +30,8 @@ export interface Database {
     player_name: string;
     player_to_kill: string;
     randomNumber: number;
+    confirmKill: boolean;
+    waitingConfirmationKill: boolean;
   };
   profiles: {
     avatar_url?: string;
