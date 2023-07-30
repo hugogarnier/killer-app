@@ -21,15 +21,15 @@ const startGame = async ({ code }: { code: Game['code'] }) => {
       const tabRandomNumber: number[] = [];
 
       const parsedPlayers = sortedPlayers.map((player) => {
-        let randomNumber = game.actions && Math.floor(Math.random() * game.actions.length);
+        let randomNumber = Math.floor(Math.random() * game.actions.length);
         if (randomNumber && tabRandomNumber.includes(randomNumber)) {
-          randomNumber = game.actions && Math.floor(Math.random() * game.actions.length);
+          randomNumber = Math.floor(Math.random() * game.actions.length);
         }
         tabRandomNumber.push(randomNumber);
 
         if (sortedPlayers.length - 1 === userIndex) {
           player.player_to_kill = players[0].player_id;
-          player.action = randomNumber && game.actions && game.actions[randomNumber].action;
+          player.action = game.actions[randomNumber].action;
           return player;
         } else {
           player.player_to_kill = players[userIndex + 1].player_id;

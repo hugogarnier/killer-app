@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { View } from 'react-native';
 
 import { defaultPlayer } from '../../constants';
-import { usePostKillPlayer } from '../../services';
+import { usePostConfirmKill, usePostKillPlayer } from '../../services';
 import { useAuthStore } from '../../stores';
 import { Game, Player } from '../../types';
 import { Button, Layout, Text, TextCard } from '../../ui';
@@ -14,14 +14,27 @@ type StartedGameProps = {
 
 export const StartedGame: FC<StartedGameProps> = ({ game, players }) => {
   const { user } = useAuthStore();
-  const { mutate } = usePostKillPlayer();
+  const { mutate: mutateConfirmKill } = usePostConfirmKill();
+  const { mutate: mutateKillPlayer } = usePostKillPlayer();
 
   const currentPlayer = players.find((player) => player.player_id === user.id) || defaultPlayer;
+  console.log('🚀 ~ file: StartedGame.tsx:20 ~ currentPlayer:', currentPlayer);
   const playerToKillName =
     players.find((player) => player.player_id === currentPlayer.player_to_kill) || defaultPlayer;
 
   const handleKill = () => {
-    mutate(
+    mutateConfirmKill(
+      { code: game.code, uid: currentPlayer.player_id },
+      {
+        onSuccess: () => {
+          // toast ??
+        },
+      },
+    );
+  };
+
+  const confirmKill = () => {
+    mutateKillPlayer(
       { code: game.code, uid: currentPlayer.player_id },
       {
         onSuccess: () => {
@@ -46,7 +59,15 @@ export const StartedGame: FC<StartedGameProps> = ({ game, players }) => {
         </View>
 
         <View className="items-center">
-          <Button onPress={handleKill} text={'KILL'} />
+          {(currentPlayer.confirmKill && (
+            <Button onPress={confirmKill} text={'CONFIRMER LE KILL'} />
+          )) || (
+            <Button
+              onPress={handleKill}
+              text={`${currentPlayer.waitingConfirmationKill ? 'EN ATTENTE' : 'KILL'}`}
+              disabled={currentPlayer.waitingConfirmationKill}
+            />
+          )}
         </View>
       </View>
     </Layout>
