@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { View } from 'react-native';
 
-import { defaultPlayer } from '../../constants';
+import { defaultPlayer, defaultUser } from '../../constants';
 import { usePostConfirmKill, usePostKillPlayer } from '../../services';
 import { useAuthStore } from '../../stores';
 import { Game, Player } from '../../types';
@@ -17,8 +17,10 @@ export const StartedGame: FC<StartedGameProps> = ({ game, players }) => {
   const { mutate: mutateConfirmKill } = usePostConfirmKill();
   const { mutate: mutateKillPlayer } = usePostKillPlayer();
 
-  const currentPlayer = players.find((player) => player.player_id === user.id) || defaultPlayer;
-  console.log('🚀 ~ file: StartedGame.tsx:20 ~ currentPlayer:', currentPlayer);
+  const userExists = (user && user) || defaultUser;
+
+  const currentPlayer =
+    players.find((player) => player.player_id === userExists.id) || defaultPlayer;
   const playerToKillName =
     players.find((player) => player.player_id === currentPlayer.player_to_kill) || defaultPlayer;
 

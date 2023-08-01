@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { FC } from 'react';
-import { TextInput, View } from 'react-native';
+import { TextInput, TextInputProps, View } from 'react-native';
 
 import { Text } from '../Text';
 
@@ -14,7 +14,7 @@ type InputProps = {
   error?: boolean;
   errorMsg?: string;
   type?: 'password';
-};
+} & TextInputProps;
 
 export const Input: FC<InputProps> = ({
   placeholder,

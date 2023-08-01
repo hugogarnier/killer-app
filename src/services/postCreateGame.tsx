@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { MUTATIONS, QUERIES } from './queries';
+import { MUTATIONS, QUERIES } from './types';
 import { supabase } from '../lib';
 import { CreateGame } from '../types';
 
@@ -14,8 +14,8 @@ const postCreateGame = async ({
   try {
     const gameExists = await supabase.from('games').select().ilike('name', `%${name}%`);
 
-    if (gameExists.data.length) {
-      throw new Error();
+    if (gameExists.data && gameExists.data.length) {
+      throw new Error('le nom existe déjà');
     }
 
     const randomCode = Math.random().toString(36).substring(2, 7).toUpperCase();
@@ -34,8 +34,12 @@ const postCreateGame = async ({
     });
 
     return { status, code: randomCode };
-  } catch {
-    return { status: 400 };
+  } catch (error) {
+    if (error instanceof Error) {
+      return { status: 400, message: error.message };
+    } else {
+      return { status: 400 };
+    }
   }
 };
 

@@ -2,10 +2,13 @@ import React from 'react';
 import { View } from 'react-native';
 
 import { FlashList } from '@shopify/flash-list';
+import { useQuery } from '@tanstack/react-query';
 import { useFocusEffect } from 'expo-router';
 
 import { GameCard } from '../../../components';
-import { useGetFilteredGames } from '../../../services';
+import { defaultUser } from '../../../constants';
+import { getFilteredGames } from '../../../services/functions/games';
+import { QUERIES } from '../../../services/types';
 import { useAuthStore, useGameStore } from '../../../stores';
 import { Game } from '../../../types';
 import { Layout, Text } from '../../../ui';
@@ -18,18 +21,20 @@ export default function Feed() {
   const setGames = useGameStore((state) => state.setGames);
   const games = useGameStore((state) => state.games);
 
-  const { isLoading, refetch } = useGetFilteredGames(
-    { id: user.id },
-    {
-      onSuccess: (response: Game[]) => {
-        setGames({ games: response });
-      },
-      enabled: false,
-    },
-  );
+  const userExists = (user && user) || defaultUser;
+
+  const { isLoading, refetch, data, isSuccess } = useQuery({
+    queryKey: [QUERIES.GAMES],
+    queryFn: () => getFilteredGames({ id: userExists.id }),
+    enabled: false,
+  });
 
   useFocusEffect(() => {
     refetch();
+
+    if (data && isSuccess) {
+      setGames({ games: data });
+    }
   });
 
   const renderItem = ({ item }: { item: Game }) => <GameCard item={item} />;

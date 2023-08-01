@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { getGame } from './functions/games';
-import { MUTATIONS, QUERIES } from './queries';
+import { MUTATIONS, QUERIES } from './types';
 import { supabase } from '../lib';
 import { Game } from '../types';
 
@@ -10,7 +10,7 @@ const startGame = async ({ code }: { code: Game['code'] }) => {
     await supabase.from('games').update({ started: true }).eq('code', code);
     const { game, players } = await getGame({ code });
 
-    if (game && !!players.length && !!game.actions) {
+    if (game && !!players.length && !!game.actions && !!game.actions.length) {
       const sortedPlayers = players.sort((a, b) => {
         if (a.randomNumber < b.randomNumber) return -1;
         if (a.randomNumber > b.randomNumber) return 1;
@@ -21,19 +21,22 @@ const startGame = async ({ code }: { code: Game['code'] }) => {
       const tabRandomNumber: number[] = [];
 
       const parsedPlayers = sortedPlayers.map((player) => {
-        let randomNumber = Math.floor(Math.random() * game.actions.length);
+        let randomNumber = Math.floor(Math.random() * (game.actions?.length ?? 0));
         if (randomNumber && tabRandomNumber.includes(randomNumber)) {
-          randomNumber = Math.floor(Math.random() * game.actions.length);
+          randomNumber = Math.floor(Math.random() * (game.actions?.length ?? 0));
         }
         tabRandomNumber.push(randomNumber);
 
         if (sortedPlayers.length - 1 === userIndex) {
           player.player_to_kill = players[0].player_id;
-          player.action = game.actions[randomNumber].action;
+          player.action =
+            game.actions && game.actions[randomNumber] ? game.actions[randomNumber].action : '';
+
           return player;
         } else {
           player.player_to_kill = players[userIndex + 1].player_id;
-          player.action = game.actions[randomNumber].action;
+          player.action =
+            game.actions && game.actions[randomNumber] ? game.actions[randomNumber].action : '';
           userIndex++;
           return player;
         }
