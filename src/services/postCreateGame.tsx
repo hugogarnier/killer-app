@@ -23,7 +23,7 @@ const postCreateGame = async ({
     const actions = await supabase.from('actions').select();
 
     // create a new game
-    const { status } = await supabase.from('games').insert({
+    const { status, error } = await supabase.from('games').insert({
       name: name,
       code: randomCode,
       admin: admin,
@@ -32,6 +32,10 @@ const postCreateGame = async ({
       ended: false,
       actions: actions.data,
     });
+
+    if (error) {
+      throw new Error(error.message);
+    }
 
     return { status, code: randomCode };
   } catch (error) {

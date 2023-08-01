@@ -33,11 +33,8 @@ export const useAppInit = () => {
   }, []);
 
   useEffect(() => {
-    console.log('appinit');
     if (appIsReady) {
-      console.log('appready');
       if (user) {
-        console.log('user');
         return router.replace('/(app)/home/feed');
       }
       return router.replace('/(auth)');

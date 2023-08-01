@@ -32,11 +32,13 @@ export const useAuthStore = create<AuthState>()(
             });
           }
 
-          await supabase.from('profiles').insert({
+          const { error } = await supabase.from('profiles').insert({
             id: user.id,
-            username: user.username.split(' ')[0],
+            username: user.username,
             avatar_url: user.uri,
           });
+
+          if (error) throw new Error();
 
           return set({
             user: { username: user.username.split(' ')[0], id: user.id, uri: user.uri },
