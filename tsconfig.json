@@ -3,7 +3,8 @@
   "compilerOptions": {
     "jsx": "react",
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "strict": true
   },
   "typeRoots": [
     "./node_modules/@types/",
@@ -11,6 +12,8 @@
   ],
   "include": [
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
   ]
 }

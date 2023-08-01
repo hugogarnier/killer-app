@@ -49,8 +49,8 @@ export default () => ({
     runtimeVersion: {
       policy: 'sdkVersion',
     },
-    // experiments: {
-    //   typedRoutes: true,
-    // },
+    experiments: {
+      typedRoutes: true,
+    },
   },
 });

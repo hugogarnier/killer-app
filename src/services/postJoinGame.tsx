@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { MUTATIONS, QUERIES } from './queries';
+import { MUTATIONS, QUERIES } from './types';
 import { supabase } from '../lib';
 import { JoinGame, Profile } from '../types';
 
@@ -12,18 +12,18 @@ const joinGame = async ({
   code: JoinGame['code'];
 }): Promise<JoinGame> => {
   try {
-    // find game from code
-    // insert player
-    const codeUpperCase = code.toUpperCase();
+    const codeUpperCase = code && code.toUpperCase();
     const randomNumber = Math.floor(Math.random() * 100);
 
-    const { data } = await supabase
+    const { data: foundGame } = await supabase.from('games').select().eq('code', codeUpperCase);
+    if (foundGame && !foundGame.length) throw new Error('aucune partie avec ce code');
+
+    const { data: foundPlayer } = await supabase
       .from('players')
       .select()
       .eq('code', codeUpperCase)
       .eq('player_id', user.id);
-
-    if (data.length) throw new Error();
+    if (foundPlayer && foundPlayer.length) throw new Error('vous êtes déjà dans la partie');
 
     const { status } = await supabase.from('players').insert({
       code: codeUpperCase,
@@ -35,8 +35,12 @@ const joinGame = async ({
     });
 
     return { status };
-  } catch {
-    return { status: 400 };
+  } catch (error) {
+    if (error instanceof Error) {
+      return { status: 400, message: error.message };
+    } else {
+      return { status: 400 };
+    }
   }
 };
 

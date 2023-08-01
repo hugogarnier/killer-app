@@ -8,18 +8,21 @@ import { Button, Layout } from '../../ui';
 import { WomanComputer } from '../../ui/Icons';
 
 export default function Page() {
-  const { auth, clearUser } = useAuthStore();
+  const { auth } = useAuthStore();
 
   const { authorize, user, isLoading } = useAuth0();
 
   useEffect(() => {
-    if (!isLoading && user) {
-      auth({ user: { username: user.name, id: user.sub, uri: user.picture } });
+    if (!isLoading && user && user.name) {
+      auth({
+        user: {
+          username: user.name,
+          id: user.sub,
+          uri: user.picture || '',
+        },
+      });
     }
-    if (!user) {
-      clearUser();
-    }
-  }, [auth, clearUser, isLoading, user]);
+  }, [auth, isLoading, user]);
 
   const login = async () => {
     try {

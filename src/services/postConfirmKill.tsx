@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { getGame } from './functions/games';
-import { MUTATIONS, QUERIES } from './queries';
+import { MUTATIONS, QUERIES } from './types';
 import { defaultPlayer } from '../constants';
 import { supabase } from '../lib';
 import { Game } from '../types';
@@ -24,7 +24,7 @@ export const confirmKill = async ({ code, uid }: { code: Game['code']; uid: stri
       .match({ code: code, player_id: uid });
 
     if (error || errorWaiting) {
-      throw new Error(error.message);
+      throw new Error();
     }
   } catch (error) {
     return error;

@@ -9,7 +9,7 @@ import {
 } from '@gorhom/bottom-sheet';
 import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types';
 
-import { colors } from '../../constants';
+import { colors, defaultUser } from '../../constants';
 import { usePostJoinGame, usePostStartGame } from '../../services';
 import { useAuthStore } from '../../stores';
 import { Game, Player } from '../../types';
@@ -33,8 +33,10 @@ export const NotStartedGame: FC<NotStartedGameProps> = ({ game, players }) => {
     bottomSheetModalRef.current?.present();
   }, []);
 
-  const isAdmin = game.admin === user.id;
-  const isAdminPlaying = players.find((player) => player.player_id === user.id);
+  const userExists = (user && user) || defaultUser;
+
+  const isAdmin = game.admin === userExists.id;
+  const isAdminPlaying = players.find((player) => player.player_id === userExists.id);
 
   const renderBackdrop = useCallback(
     (props: BottomSheetDefaultBackdropProps) => (
@@ -67,7 +69,7 @@ export const NotStartedGame: FC<NotStartedGameProps> = ({ game, players }) => {
 
   const handleJoinGame = () => {
     mutatePostJoinGame(
-      { user: user, code: game.code },
+      { user: userExists, code: game.code },
       {
         onSuccess: () => {
           // toast ??

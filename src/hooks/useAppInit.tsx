@@ -27,25 +27,18 @@ export const useAppInit = () => {
     IBMPlexMono_700Bold,
   });
 
-  // async function loadData() {
-  //   await Font.loadAsync({
-  //     IBMPlexMono_300Light,
-  //     IBMPlexMono_400Regular,
-  //     IBMPlexMono_500Medium,
-  //     IBMPlexMono_600SemiBold,
-  //     IBMPlexMono_700Bold,
-  //   });
-  //   setAppIsReady(true);
-  // }
   useEffect(() => {
     SplashScreen.hideAsync();
     setAppIsReady(true);
   }, []);
 
   useEffect(() => {
+    console.log('appinit');
     if (appIsReady) {
+      console.log('appready');
       if (user) {
-        return router.replace('/(app)/home');
+        console.log('user');
+        return router.replace('/(app)/home/feed');
       }
       return router.replace('/(auth)');
     }
