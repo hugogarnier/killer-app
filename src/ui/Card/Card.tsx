@@ -22,7 +22,14 @@ export const Card: FC<CardProps> = ({
   return (
     <Pressable
       onPress={onPress}
-      className={`flex flex-row justify-between items-center w-full h-20 bg-white px-4 py-4 rounded-xl shadow-sm active:scale-95`}
+      className={`flex flex-row justify-between items-center w-full h-20 bg-white px-4 py-4 rounded-xl active:scale-95`}
+      // eslint-disable-next-line react-native/no-inline-styles
+      style={{
+        shadowColor: 'rgba(0, 0, 0, 0.1)',
+        shadowOffset: { width: 0, height: 4 },
+        shadowRadius: 6,
+        elevation: 3,
+      }}
     >
       {variant === 'primary' && (
         <View className={'flex flex-row justify-between items-center'}>

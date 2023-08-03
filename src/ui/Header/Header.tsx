@@ -16,7 +16,7 @@ export const Header: FC<HeaderProps> = ({ variant = 'primary', title, onPress })
 
   return (
     <View
-      className={`flex flex-row justify-between items-center w-full px-6 ${
+      className={`flex flex-row justify-between items-center w-full px-6 pb-4 overflow-hidden ${
         (isAndroid && 'pt-10') || 'pt-8'
       }`}
     >
