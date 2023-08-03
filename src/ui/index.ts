@@ -1,7 +1,10 @@
+export { BottomSheetInput } from './BottomSheetInput';
 export { Button } from './Button';
 export { Card } from './Card';
+export { Header } from './Header';
 export { Input } from './Input';
 export { KeyboardLayout } from './KeyboardLayout';
 export { Layout } from './Layout';
+export { Modal, useModal } from './Modal';
 export { Text } from './Text';
 export { TextCard } from './TextCard';

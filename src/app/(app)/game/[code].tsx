@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { SimpleLineIcons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
-import { Link, Stack, useLocalSearchParams } from 'expo-router';
+import { Stack, useLocalSearchParams } from 'expo-router';
 import LottieView from 'lottie-react-native';
 
 import { EndedGame, NotStartedGame, StartedGame } from '../../../components';
@@ -10,15 +9,13 @@ import { defaultGame } from '../../../constants';
 import { supabase } from '../../../lib';
 import { getGame } from '../../../services/functions/games';
 import { QUERIES } from '../../../services/types';
-import { Layout } from '../../../ui';
+import { GameCreated } from '../../../types';
+import { Header, Layout } from '../../../ui';
+import { shareCode } from '../../../utils';
 
-function GoBackHome() {
-  return (
-    <Link href={'/(app)/home/feed'}>
-      <SimpleLineIcons name={'arrow-left'} size={18} />
-    </Link>
-  );
-}
+const HeaderScreen = ({ game }: { game: GameCreated }) => (
+  <Header variant="tertiary" title={game.game.name} onPress={() => shareCode(game.game.code)} />
+);
 
 export default function Game() {
   const { code } = useLocalSearchParams();
@@ -46,14 +43,8 @@ export default function Game() {
           <Stack.Screen
             options={{
               headerShown: true,
-              headerTransparent: true,
-              headerBackTitleVisible: false,
-              headerBackTitleStyle: { fontFamily: 'IBMPlexMono_400Regular' },
-              headerBackTitle: '',
-              headerTitleStyle: { fontFamily: 'IBMPlexMono_400Regular' },
-              headerTitleAlign: 'center',
-              title: game.game.name,
-              headerLeft: GoBackHome,
+              // eslint-disable-next-line react/no-unstable-nested-components
+              header: () => <HeaderScreen game={game} />,
             }}
           />
           {(!game.game.started && <NotStartedGame {...game} />) ||

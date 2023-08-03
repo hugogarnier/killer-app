@@ -15,10 +15,10 @@ export const KeyboardLayout: FC<KeyboardLayoutProps> = ({ children }) => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      className={'flex-1 bg-background px-6 pt-24 '}
+      className={'px-6'}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View className="flex-1 justify-between pb-8">{children}</View>
+        <View>{children}</View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );

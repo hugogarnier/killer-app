@@ -8,12 +8,12 @@ import { z } from 'zod';
 
 import { usePostCreateGame } from '../../../services';
 import { useAuthStore } from '../../../stores';
-import { Button, Input, KeyboardLayout } from '../../../ui';
-import { WomanSit } from '../../../ui/Icons';
+import { Input, KeyboardLayout, Modal, useModal } from '../../../ui';
 
 export default function Create() {
   const router = useRouter();
   const { user } = useAuthStore();
+  const { closeModal } = useModal();
   const { mutate: mutatePostCreateGame } = usePostCreateGame();
 
   const validationSchema = z.object({
@@ -45,7 +45,7 @@ export default function Create() {
           onSuccess: (response) => {
             if (response.status === 400 && !!response.message)
               return setError('create', { type: 'custom', message: response.message });
-            return router.push(`/game/${response.code}`);
+            return closeModal(() => router.push(`/game/${response.code}`));
           },
           onError: () => {
             return setError('create', { type: 'custom', message: 'un problème est survenu' });
@@ -57,32 +57,36 @@ export default function Create() {
     }
   };
 
+  const onSwipeClose = () => closeModal(() => router.back());
+
   return (
-    <KeyboardLayout>
-      <Controller
-        name="create"
-        control={control}
-        rules={{ required: true, max: 16 }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <View>
-            <View className="items-center pb-32">
-              <WomanSit />
+    <Controller
+      name="create"
+      control={control}
+      rules={{ required: true, max: 16 }}
+      render={({ field: { onChange, onBlur, value } }) => (
+        <Modal
+          onSwipeClose={onSwipeClose}
+          onValidate={handleSubmit(onSubmit)}
+          onValidateLabel="valider"
+        >
+          <KeyboardLayout>
+            <View>
+              <View className="items-center">
+                <Input
+                  title="titre"
+                  placeholder="entre un titre"
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                  value={value}
+                  error={!!errors}
+                  errorMsg={errors.create?.message}
+                />
+              </View>
             </View>
-            <View className="items-center">
-              <Input
-                title="titre"
-                placeholder="entre un titre"
-                onChangeText={onChange}
-                onBlur={onBlur}
-                value={value}
-                error={!!errors}
-                errorMsg={errors.create?.message}
-              />
-              <Button onPress={handleSubmit(onSubmit)} text="créer" />
-            </View>
-          </View>
-        )}
-      />
-    </KeyboardLayout>
+          </KeyboardLayout>
+        </Modal>
+      )}
+    />
   );
 }

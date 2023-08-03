@@ -11,7 +11,7 @@ export const Layout: FC<LayoutProps> = ({ children, style }) => {
 
   return (
     <View
-      className={`flex-1 bg-background px-6 pb-8 ${(isAndroid && 'pt-32') || 'pt-24'}`}
+      className={`flex-1 bg-background px-6 pb-8 ${(isAndroid && 'pt-28') || 'pt-24'}`}
       style={style}
     >
       {children}

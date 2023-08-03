@@ -5,7 +5,7 @@ import { Text } from '../Text';
 
 type ButtonProps = {
   variant?: 'primary' | 'secondary';
-  text: string;
+  text?: string;
   onPress?: () => void;
   disabled?: boolean;
 };
