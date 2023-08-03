@@ -1,10 +1,9 @@
 import React, { FC, useCallback, useMemo, useRef } from 'react';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
-  BottomSheetModalProvider,
   useBottomSheetSpringConfigs,
 } from '@gorhom/bottom-sheet';
 import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types';
@@ -14,8 +13,6 @@ import { usePostJoinGame, usePostStartGame } from '../../services';
 import { useAuthStore } from '../../stores';
 import { Game, Player } from '../../types';
 import { Button, Card, Text, TextCard } from '../../ui';
-import { Share } from '../../ui/Icons';
-import { shareCode } from '../../utils';
 
 type NotStartedGameProps = {
   game: Game;
@@ -96,12 +93,6 @@ export const NotStartedGame: FC<NotStartedGameProps> = ({ game, players }) => {
       <View className="flex-1 justify-between pt-32 pb-16">
         <View className="flex-row justify-center items-center space-x-4">
           <Text className="text-xl font-bold">{game.code}</Text>
-          <Pressable
-            className="bg-gray200 p-2 rounded-full active:bg-gray400"
-            onPress={() => shareCode(game.code)}
-          >
-            <Share color={colors.gray800} />
-          </Pressable>
         </View>
 
         <View>
@@ -135,29 +126,27 @@ export const NotStartedGame: FC<NotStartedGameProps> = ({ game, players }) => {
           )}
         </View>
       </View>
-      <BottomSheetModalProvider>
-        <BottomSheetModal
-          ref={bottomSheetModalRef}
-          index={0}
-          snapPoints={snapPoints}
-          enablePanDownToClose
-          backdropComponent={renderBackdrop}
-          backgroundStyle={{ backgroundColor: colors.gray200 }}
-          animationConfigs={animationConfigs}
-        >
-          <View className={'flex-1 items-center px-6 pt-10'}>
-            <Text className="text-xl font-bold pb-4">liste des joueurs</Text>
-            {playerFound &&
-              players.map((player) => {
-                return (
-                  <View key={player.id} className="flex flex-row px-4 mb-4">
-                    <TextCard variant="primary" title={player.player_name} status={player.alive} />
-                  </View>
-                );
-              })}
-          </View>
-        </BottomSheetModal>
-      </BottomSheetModalProvider>
+      <BottomSheetModal
+        ref={bottomSheetModalRef}
+        index={0}
+        snapPoints={snapPoints}
+        enablePanDownToClose
+        backdropComponent={renderBackdrop}
+        backgroundStyle={{ backgroundColor: colors.gray200 }}
+        animationConfigs={animationConfigs}
+      >
+        <View className={'flex-1 items-center px-6 pt-10'}>
+          <Text className="text-xl font-bold pb-4">liste des joueurs</Text>
+          {playerFound &&
+            players.map((player) => {
+              return (
+                <View key={player.id} className="flex flex-row px-4 mb-4">
+                  <TextCard variant="primary" title={player.player_name} status={player.alive} />
+                </View>
+              );
+            })}
+        </View>
+      </BottomSheetModal>
     </>
   );
 };

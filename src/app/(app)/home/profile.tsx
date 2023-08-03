@@ -15,7 +15,9 @@ import { Avatar } from '../../../components';
 import { defaultUser } from '../../../constants';
 import { useAuthStore } from '../../../stores';
 // import { Player } from '../../../types';
-import { Button, Layout, Text } from '../../../ui';
+import { Button, Header, Layout, Text } from '../../../ui';
+
+const HeaderScreen = () => <Header variant="secondary" />;
 
 export default function Index() {
   const { user, clearUser } = useAuthStore();
@@ -52,19 +54,13 @@ export default function Index() {
     <Layout>
       <Stack.Screen
         options={{
-          headerShown: true,
-          headerTransparent: true,
-          headerBackTitleVisible: false,
-          headerBackTitle: '',
-          title: '',
+          header: HeaderScreen,
         }}
       />
       <View className="flex-1 justify-between">
         <View className="items-center">
+          <Avatar uri={userExists.uri} />
           <Text className="text-2xl pb-4">{userExists.username}</Text>
-          <View>
-            <Avatar uri={userExists.uri} />
-          </View>
         </View>
 
         <View className="justify-center items-center">

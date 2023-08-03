@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 // eslint-disable-next-line import/no-named-as-default
 import Constants from 'expo-constants';
@@ -19,7 +20,9 @@ export default function Root() {
   return (
     <QueryClientProvider client={queryClient}>
       <Auth0Provider domain={AUTH_DOMAIN} clientId={AUTH_CLIENT_ID}>
-        <Slot />
+        <BottomSheetModalProvider>
+          <Slot />
+        </BottomSheetModalProvider>
       </Auth0Provider>
     </QueryClientProvider>
   );
