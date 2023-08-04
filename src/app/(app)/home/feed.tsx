@@ -26,7 +26,7 @@ export default function Feed() {
 
   const isAndroid = Platform.OS === 'android';
 
-  const offset = useSharedValue((isAndroid && 112) || 96);
+  const offset = useSharedValue((isAndroid && 128) || 112);
   const animatedStyles = useAnimatedStyle(() => {
     return {
       paddingTop: withSpring(offset.value),
