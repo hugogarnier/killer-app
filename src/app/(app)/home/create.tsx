@@ -1,20 +1,35 @@
-import React from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { View } from 'react-native';
 
+import {
+  BottomSheetBackdrop,
+  BottomSheetBackdropProps,
+  BottomSheetModal,
+} from '@gorhom/bottom-sheet';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import { Controller, useForm } from 'react-hook-form';
+import { useAuth0 } from 'react-native-auth0';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { z } from 'zod';
 
 import { usePostCreateGame } from '../../../services';
-import { useAuthStore } from '../../../stores';
-import { Input, KeyboardLayout, Modal, useModal } from '../../../ui';
+import { Button, Input, KeyboardLayout } from '../../../ui';
 
 export default function Create() {
   const router = useRouter();
-  const { user } = useAuthStore();
-  const { closeModal } = useModal();
+  const { user } = useAuth0();
   const { mutate: mutatePostCreateGame } = usePostCreateGame();
+  const { top } = useSafeAreaInsets();
+  const [gameCreated, setGameCreated] = useState<boolean>(false);
+
+  const snapPoints = useMemo(() => ['45%'], []);
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+
+  // Auto open modal when isFocused
+  useFocusEffect(() => {
+    bottomSheetModalRef.current?.present();
+  });
 
   const validationSchema = z.object({
     create: z
@@ -40,12 +55,14 @@ export default function Create() {
   const onSubmit = (data: ValidationSchema) => {
     if (user) {
       mutatePostCreateGame(
-        { name: data.create, admin: user.id },
+        { name: data.create, admin: user.sub },
         {
           onSuccess: (response) => {
             if (response.status === 400 && !!response.message)
               return setError('create', { type: 'custom', message: response.message });
-            return closeModal(() => router.push(`/game/${response.code}`));
+            setGameCreated(true);
+            bottomSheetModalRef.current?.dismiss();
+            return router.push(`/game/${response.code}`);
           },
           onError: () => {
             return setError('create', { type: 'custom', message: 'un problème est survenu' });
@@ -57,7 +74,30 @@ export default function Create() {
     }
   };
 
-  const onSwipeClose = () => closeModal(() => router.back());
+  const renderBackdrop = useCallback(
+    (backdropProps: BottomSheetBackdropProps) => (
+      <BottomSheetBackdrop
+        appearsOnIndex={0}
+        disappearsOnIndex={-1}
+        opacity={0.5}
+        {...backdropProps}
+      />
+    ),
+    [],
+  );
+
+  const handleSheetChanges = useCallback(
+    (index: number) => {
+      if (gameCreated) {
+        return undefined;
+      }
+      if (index < 0 && !gameCreated) {
+        return router.back();
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [gameCreated],
+  );
 
   return (
     <Controller
@@ -65,10 +105,13 @@ export default function Create() {
       control={control}
       rules={{ required: true, max: 16 }}
       render={({ field: { onChange, onBlur, value } }) => (
-        <Modal
-          onSwipeClose={onSwipeClose}
-          onValidate={handleSubmit(onSubmit)}
-          onValidateLabel="valider"
+        <BottomSheetModal
+          ref={bottomSheetModalRef}
+          index={0}
+          onChange={handleSheetChanges}
+          backdropComponent={renderBackdrop}
+          snapPoints={snapPoints}
+          topInset={top}
         >
           <KeyboardLayout>
             <View>
@@ -83,9 +126,12 @@ export default function Create() {
                   errorMsg={errors.create?.message}
                 />
               </View>
+              <View className="px-6">
+                <Button onPress={handleSubmit(onSubmit)} text={'valider'} />
+              </View>
             </View>
           </KeyboardLayout>
-        </Modal>
+        </BottomSheetModal>
       )}
     />
   );

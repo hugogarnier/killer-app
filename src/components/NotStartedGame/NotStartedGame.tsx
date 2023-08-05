@@ -7,10 +7,10 @@ import {
   useBottomSheetSpringConfigs,
 } from '@gorhom/bottom-sheet';
 import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types';
+import { useAuth0 } from 'react-native-auth0';
 
 import { colors, defaultUser } from '../../constants';
 import { usePostJoinGame, usePostStartGame } from '../../services';
-import { useAuthStore } from '../../stores';
 import { Game, Player } from '../../types';
 import { Button, Card, Text, TextCard } from '../../ui';
 
@@ -20,7 +20,7 @@ type NotStartedGameProps = {
 };
 
 export const NotStartedGame: FC<NotStartedGameProps> = ({ game, players }) => {
-  const { user } = useAuthStore();
+  const { user } = useAuth0();
   const { mutate: mutatePostStartGame } = usePostStartGame();
   const { mutate: mutatePostJoinGame } = usePostJoinGame();
 
@@ -32,8 +32,8 @@ export const NotStartedGame: FC<NotStartedGameProps> = ({ game, players }) => {
 
   const userExists = (user && user) || defaultUser;
 
-  const isAdmin = game.admin === userExists.id;
-  const isAdminPlaying = players.find((player) => player.player_id === userExists.id);
+  const isAdmin = game.admin === userExists.sub;
+  const isAdminPlaying = players.find((player) => player.player_id === userExists.sub);
 
   const renderBackdrop = useCallback(
     (props: BottomSheetDefaultBackdropProps) => (

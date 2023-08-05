@@ -1,9 +1,10 @@
 import React, { FC } from 'react';
 import { View } from 'react-native';
 
+import { useAuth0 } from 'react-native-auth0';
+
 import { defaultPlayer, defaultUser } from '../../constants';
 import { usePostConfirmKill, usePostKillPlayer } from '../../services';
-import { useAuthStore } from '../../stores';
 import { Game, Player } from '../../types';
 import { Button, Layout, Text, TextCard } from '../../ui';
 
@@ -13,14 +14,14 @@ type StartedGameProps = {
 };
 
 export const StartedGame: FC<StartedGameProps> = ({ game, players }) => {
-  const { user } = useAuthStore();
+  const { user } = useAuth0();
   const { mutate: mutateConfirmKill } = usePostConfirmKill();
   const { mutate: mutateKillPlayer } = usePostKillPlayer();
 
   const userExists = (user && user) || defaultUser;
 
   const currentPlayer =
-    players.find((player) => player.player_id === userExists.id) || defaultPlayer;
+    players.find((player) => player.player_id === userExists.sub) || defaultPlayer;
   const playerToKillName =
     players.find((player) => player.player_id === currentPlayer.player_to_kill) || defaultPlayer;
 

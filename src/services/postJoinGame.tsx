@@ -1,14 +1,15 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { User } from 'react-native-auth0';
 
 import { MUTATIONS, QUERIES } from './types';
 import { supabase } from '../lib';
-import { JoinGame, Profile } from '../types';
+import { JoinGame } from '../types';
 
 const joinGame = async ({
   user,
   code,
 }: {
-  user: Profile;
+  user: User;
   code: JoinGame['code'];
 }): Promise<JoinGame> => {
   try {
@@ -22,16 +23,16 @@ const joinGame = async ({
       .from('players')
       .select()
       .eq('code', codeUpperCase)
-      .eq('player_id', user.id);
+      .eq('player_id', user.sub);
     if (foundPlayer && foundPlayer.length) throw new Error('vous êtes déjà dans la partie');
 
     const { status } = await supabase.from('players').insert({
       code: codeUpperCase,
       created_at: new Date(),
       alive: true,
-      player_id: user.id,
+      player_id: user.sub,
       randomNumber,
-      player_name: user.username,
+      player_name: user.name,
     });
 
     return { status };

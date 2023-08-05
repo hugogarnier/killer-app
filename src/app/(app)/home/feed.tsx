@@ -4,13 +4,14 @@ import { Platform, View } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 import { useQuery } from '@tanstack/react-query';
 import { Stack, useFocusEffect } from 'expo-router';
+import { useAuth0 } from 'react-native-auth0';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 
 import { GameCard } from '../../../components';
 import { defaultUser } from '../../../constants';
 import { getFilteredGames } from '../../../services/functions/games';
 import { QUERIES } from '../../../services/types';
-import { useAuthStore, useGameStore } from '../../../stores';
+import { useGameStore } from '../../../stores';
 import { Game } from '../../../types';
 import { Header, Text } from '../../../ui';
 import { WomanComputer } from '../../../ui/Icons';
@@ -20,7 +21,8 @@ const HeaderScreen = () => <Header variant="primary" />;
 const Separator = () => <View className={'h-8'} />;
 
 export default function Feed() {
-  const user = useAuthStore((state) => state.user);
+  const { user } = useAuth0();
+
   const setGames = useGameStore((state) => state.setGames);
   const games = useGameStore((state) => state.games);
 
@@ -37,7 +39,7 @@ export default function Feed() {
 
   const { isLoading, refetch, data, isSuccess } = useQuery({
     queryKey: [QUERIES.GAMES],
-    queryFn: () => getFilteredGames({ id: userExists.id }),
+    queryFn: () => getFilteredGames({ id: userExists.sub }),
     enabled: false,
   });
 
@@ -56,6 +58,7 @@ export default function Feed() {
       <Stack.Screen
         options={{
           header: HeaderScreen,
+          statusBarStyle: 'dark',
         }}
       />
       <View className={'w-full h-full'}>

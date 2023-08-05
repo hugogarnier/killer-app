@@ -12,4 +12,5 @@ export enum MUTATIONS {
   JOIN = 'join',
   START = 'start',
   KILL = 'kill',
+  USER = 'user',
 }
