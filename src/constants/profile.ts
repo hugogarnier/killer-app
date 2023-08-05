@@ -9,7 +9,7 @@ export const defaultProfile: Profile = {
 };
 
 export const defaultUser = {
-  username: '',
-  id: '',
-  uri: '',
+  name: '',
+  sub: '',
+  picture: '',
 };

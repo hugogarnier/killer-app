@@ -13,15 +13,14 @@ import { Avatar } from '../../../components';
 // import { getGamesFromPlayer } from '../../../services/functions/players';
 // import { QUERIES } from '../../../services/types';
 import { defaultUser } from '../../../constants';
-import { useAuthStore } from '../../../stores';
 // import { Player } from '../../../types';
 import { Button, Header, Layout, Text } from '../../../ui';
 
 const HeaderScreen = () => <Header variant="secondary" />;
 
 export default function Index() {
-  const { user, clearUser } = useAuthStore();
-  const { clearSession } = useAuth0();
+  // const { user, clearUser } = useAuthStore();
+  const { user, clearSession } = useAuth0();
 
   const userExists = (user && user) || defaultUser;
 
@@ -44,7 +43,7 @@ export default function Index() {
   const logout = async () => {
     try {
       await clearSession({ customScheme: 'killer-app' });
-      clearUser();
+      // clearUser();
     } catch (error) {
       console.log(error);
     }
@@ -59,8 +58,8 @@ export default function Index() {
       />
       <View className="flex-1 justify-between">
         <View className="items-center">
-          <Avatar uri={userExists.uri} />
-          <Text className="text-2xl pb-4">{userExists.username}</Text>
+          <Avatar uri={userExists.picture || ''} />
+          <Text className="text-2xl pb-4">{userExists.name}</Text>
         </View>
 
         <View className="justify-center items-center">

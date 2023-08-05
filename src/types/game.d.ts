@@ -16,3 +16,8 @@ export type GameCreated = {
   game: Game;
   players: Player[];
 };
+
+export type User = {
+  status: number;
+  message?: string;
+};
