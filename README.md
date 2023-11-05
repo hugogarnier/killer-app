@@ -1,15 +1,14 @@
-# Expo Router Example
+# killer app
 
-Use [`expo-router`](https://expo.github.io/router) to build native navigation using files in the `app/` directory.
+Help application for the Killer game. It allows you to create and manage games between friends without the risk of collision between players.
 
-## 🚀 How to use
+<img src="./public/screen1.png" width="200px" alt="screen1">
+<img src="./public/screen2.png" width="200px" alt="screen2">
 
-```sh
-npx create-react-native-app -t with-router
-```
+Built with:
+- [React Native](https://reactnative.dev/)
+- [Expo](https://expo.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Zustand](https://github.com/pmndrs/zustand)
+- [Zod](https://zod.dev/)
 
-## 📝 Notes
-
-- [Expo Router: Docs](https://expo.github.io/router)
-- [Expo Router: Repo](https://github.com/expo/router)
-- [Request for Comments](https://github.com/expo/router/discussions/1)

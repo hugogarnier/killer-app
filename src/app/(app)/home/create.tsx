@@ -53,7 +53,7 @@ export default function Create() {
   });
 
   const onSubmit = (data: ValidationSchema) => {
-    if (user) {
+    if (user && user.sub) {
       mutatePostCreateGame(
         { name: data.create, admin: user.sub },
         {
